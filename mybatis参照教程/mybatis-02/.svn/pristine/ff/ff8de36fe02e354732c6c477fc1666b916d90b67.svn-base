@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!-- namespace  区别不同mapper 用于隔离 sql  -->
+<mapper namespace="com.cloudtcc.mybatis.mapper.OrdersMapper">
+	<!-- 自定义resultMap -->
+	<resultMap type="Orders" id="orders">
+		<!-- 只要把类中属性与数据库字段不一致的写上 -->
+		<result column="user_id" property="userId" />
+	</resultMap>
+	<select id="queryOrdersById" parameterType="Integer" resultMap="orders">
+		select * from orders where id=#{id}
+	</select>
+	
+	<select id="queryOrdersUser" resultMap="orders1">
+		SELECT o.id,u.username,u.birthday,o.createtime 
+		from orders o 
+		LEFT JOIN 
+		user u 
+		on 
+		o.user_id=u.id
+	</select>
+	
+	<!-- 查询所有的订单  并把订单所属的用户查出来 -->
+	<resultMap type="Orders" id="orders1">
+		<id column="id" property="id"/>
+		<result column="user_id" property="userId"/>
+		<result column="createtime" property="createtime"/>
+		<result column="number" property="number"/>
+		<result column="note" property="note"/>
+		<association property="user" javaType="User">
+			<id column="id" property="id"/>
+			<result column="address" property="address"/>
+			<result column="username" property="username"/>
+			<result column="birthday" property="birthday"/>
+			<result column="sex" property="sex"/>
+		</association>
+	</resultMap>
+</mapper>

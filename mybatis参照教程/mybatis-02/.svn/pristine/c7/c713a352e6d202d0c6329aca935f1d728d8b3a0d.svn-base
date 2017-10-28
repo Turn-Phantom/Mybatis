@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE configuration
+PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-config.dtd">
+<configuration>
+	<!-- 配置外部的数据源 -->
+	<properties resource="db.properties" >
+	</properties>
+	
+	<typeAliases>
+		<!-- <typeAlias type="com.cloudtcc.mybatis.pojo.User" alias="User"/> -->
+		<!-- 实际开发中一般是配置包名 -->
+		<package name="com.cloudtcc.mybatis.pojo"/>
+	</typeAliases>
+
+	<!-- 配置环境   和spring整合后不需要 -->
+	<environments default="development">
+		<environment id="development">
+			<!-- 事务 -->
+			<transactionManager type="JDBC"></transactionManager>
+			<!-- 连接池 -->
+			<dataSource type="POOLED">
+				<property name="driver" value="${jdbc.driver}"/>
+				<property name="url" value="${jdbc.url}"/>
+				<property name="username" value="${jdbc.username}"/>
+				<property name="password" value="${jdbc.password}"/>
+			</dataSource>
+		</environment>
+		<environment id="oracle">
+			<!-- 事务 -->
+			<transactionManager type="JDBC"></transactionManager>
+			<!-- 连接池 -->
+			<dataSource type="POOLED">
+				<property name="driver" value="oracl.jdbc.driver.OracleDriver"/>
+				<property name="url" value="jdbc:oracle:thin:@localhost:1521:orcl"/>
+				<property name="username" value="qianhaiyun"/>
+				<property name="password" value="123456"/>
+			</dataSource>
+		</environment>
+	</environments>
+	<!-- 配置映射文件 -->
+	<mappers>
+		<!-- <mapper resource="UserMapper.xml"  /> -->
+		<!-- 前提条件 ：mapper接口必须和映射文件放在同一个包下   并且名称要一致 -->
+		<!-- <mapper class="com.cloudtcc.mybatis.mapper.UserMapper" /> -->
+		<!-- 配置绝对路径  一般不使用 -->
+		<!-- <mapper url="" /> -->
+		
+		<!-- 是开发中使用package配置 
+			name配置包mapper包所在的位置；
+			前提条件 ：mapper接口必须和映射文件放在同一个包下   并且名称要一致
+		-->
+		<package name="com.cloudtcc.mybatis.mapper"/>
+	</mappers>
+</configuration>

@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!-- namespace  区别不同mapper 用于隔离 sql  -->
+<mapper namespace="com.cloudtcc.mybatis.mapper.UserMapper">
+	
+	<!-- 简单查询 
+		id:唯一，sql执行的调用名称  
+		parameterType:声明输入参数的类型    可以说基本类型 或者 pojo ( 写类的全类名)
+		resultType ： 返回的数据类型   写类的全类名
+	-->
+	<select id="queryUserById" parameterType="Integer"  resultType="User">
+		select * from user where id=#{vvvv}
+	</select>
+	<!-- 模糊查询 -->
+	<select id="queryUsersByName" parameterType="String" resultType="User">
+		select * from user where username like #{username}
+	</select>
+	<select id="queryUsersByName1" parameterType="String" resultType="com.cloudtcc.mybatis.pojo.User">
+		select * from user where username like "%${value}%"
+	</select>
+	<select id="queryUsersByName2" parameterType="String" resultType="com.cloudtcc.mybatis.pojo.User">
+		select * from user where username like "%"#{hhh}"%"
+	</select>
+	<!-- 添加用户   增删改返回值都是int-->
+	<insert id="addUser" parameterType="com.cloudtcc.mybatis.pojo.User" >
+		insert into user (username,sex,birthday,address) 
+		values(#{username},#{sex},#{birthday},#{address})
+	</insert>
+	<!-- 插入用户返回主键 -->
+	<insert id="addUser1" parameterType="com.cloudtcc.mybatis.pojo.User" >
+		<!-- 
+			selectKey:查询插入的返回主键
+			keyProperty：主键的属性名称
+			resultType：主键的类型
+			order：before | after  执行sql之前  还是之后返回  
+				after：mysql自增长使用
+				before：oracle sequence ，sys_guid  ，mysql的uuid
+		 -->
+		<selectKey keyProperty="id" resultType="Integer" order="AFTER">
+			select LAST_INSERT_ID()
+		</selectKey>
+		insert into user (username,sex,birthday,address) 
+		values(#{username},#{sex},#{birthday},#{address})
+	</insert>
+	
+	<!-- 用户更新 -->
+	<update id="updateUser" parameterType="com.cloudtcc.mybatis.pojo.User">
+		update user set username=#{username},sex=#{sex},birthday=#{birthday},
+		address=#{address} where id=#{id}
+	</update>
+	<!-- 删除更新 -->
+	<delete id="deleteUser" parameterType="Integer" >
+		delete from user where id=#{id}
+	</delete>
+	
+	
+</mapper>
