@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!-- 要填写命名空间 -->
+<mapper namespace = "test">
+<!-- 
+1、id 查询语句的id,或者叫做sql的id
+2、parameterType :声明输入参数的类型
+3、resultTpe: 声明输出结果的类型，填写返回类型的全类名（在没有起别名的情况下）
+4、#{} : 输入参数的占位符，相当于jdbc中的 ?
+ -->
+ <!-- 根据id查询用户信息 -->
+  <select id="queryUserById" parameterType="int" resultType="com.li.mybatis.pojo.User">
+  select * from user where id = #{id};
+  </select>
+  <!-- method 1 根据用户名模糊查询 -->
+  <select id="queryUserByUserName1" parameterType="String" resultType="com.li.mybatis.pojo.User">
+ 	select * from user where username like #{username};
+  </select>
+  <!-- method 2 根据用户名模糊查询 -->
+  <select id = "queryUserByUserName2" parameterType="String" resultType="com.li.mybatis.pojo.User">
+  	select * from user where username like '%${value}%'
+  </select>	
+
+
+<!-- 
+	#{} ： 表示一个占位符号，可以实现prepareStatement向占位符中设置值
+	自动进行java类型和jdbc类型转换
+	#{}可以有效防止sql注入。可以接收简单类型值或pojo属性值
+	如果parameterType传输单个简单类型值
+	#{} 花括号中可以是value或者其他名称
+ -->
+
+<!-- 保存用户 -->
+	<insert id="saveUser" parameterType="com.li.mybatis.pojo.User">
+		insert into user (username,birthday,sex,address) values(#{username},#{birthday},#{sex},#{address});
+	</insert>
+	
+<!-- 保存用户，返回自主增长id -->
+	<insert id="saveUser1" parameterType="com.li.mybatis.pojo.User">
+		<!-- 
+			selectkey 标签实现主键返回
+			keycloumn 主键对应的列
+			keyPropert 主键对应的pojo中的属性
+			order 设置在执行insert 语句前执行查询id 的 sql ，还是在执行insert语句之后执行查询id的sql
+			resultType 设置返回的id类型		
+		 -->
+		<selectKey keyColumn="id" keyProperty="id" order="AFTER" resultType="int">
+			<!-- 是mysql的函数，返回auto_increment自增列新纪录 -->
+			SELECT LAST_INSERT_ID()
+		</selectKey>
+		insert into user (username,birthday,sex,address) values(#{username},#{birthday},#{sex},#{address});
+	</insert>
+<!-- 新增用户，使用自动生成UUID作为主键 -->
+	<insert id="saveUser2" parameterType="com.li.mybatis.pojo.User2">
+		<!-- 
+			selectKey 标签实现主键返回
+			keyColumn 主键对应的列
+			keyProperty 主键对应实体类的属性
+			order 设置在执行insert语句前执行查询id的sql，还是执行insert语句之后执行查询id的sql
+			resultType 设置返回的id类型
+		 -->
+		<selectKey keyColumn="id" keyProperty="id" order="BEFORE" resultType="String">
+			SELECT UUID()
+		</selectKey>
+		insert into user2(id,username,birthday,sex,address) values(#{id},#{username},#{birthday},#{sex},#{address});
+	</insert>
+	
+<!-- 根据id修改用户信息 -->
+	<update id="updateUserById" parameterType="com.li.mybatis.pojo.User">
+		<!-- 实体类修改后，根据获取实体类对应的属性设置数据库中用户的信息 -->
+		update user set username = #{username} where id = #{id}
+	</update>
+	
+<!-- 根据id删除用户 -->
+	<delete id="deleteUserById" parameterType="int">
+		delete from user where id = #{id}
+	</delete>
+	
+</mapper>
