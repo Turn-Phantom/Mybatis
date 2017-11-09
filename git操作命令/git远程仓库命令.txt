@@ -1,0 +1,80 @@
+使用git for Windows 创建ssh key：ssh-keygen -t rsa -C (yourEmail)
+
+关联远程仓库：git remote add origin git@github.com:(YourAccountName)/(YourProjectName).git
+	eg：git remote add origin git@github.com:Turn-Phantom/lisheng.git
+	
+第一次把本地库内容推送到远程仓库：git push -u origin  master
+
+此后推送更新修改：git push origin master
+
+克隆远程仓库的项目到本地库：git clone git@github.com:(YourUserName)/YourProjectName.git
+	eg:git clone git@github.com:Turn-Phantom/lisheng.git
+
+克隆其他人的github项目：git clone git@github.com:(othersUserName)/(OthersProjectName.git)
+
+创建分支：git branch dev
+
+切换分支：git checkout dev(master)
+
+创建并切换分支：git checkout -b dev
+
+查看当前分支：git branch 
+
+切换回master主分支后，合并分支创建的内容：git merge dev
+	Fast forward 模式合并分支（删除分支后，分支信息消失）
+	
+关闭Fast forward模式合并分支：git --no--ff -m 'message context' dev
+
+修改内容后，
+
+删除分支：git branch -d dev(分支名)
+
+查看分支合并图：git log --graph --pretty=oneline --abbrev-commit
+
+在当前分支工作为完成时，急需修复bug时候，可暂时将当前工作储存:
+	git stash 
+	
+	然后切换到主分支，新建一个分支来修复bug，提交
+	
+	回到工作的分支，查看储存的工作列表：git stash list 
+	
+	恢复stash内容：git stash apply 
+	删除stash内容：git stash drop 
+	
+	恢复并删除stash内容：git stash pop 
+	
+强行删除没有合并的分支：git branch -D BranchName
+
+查看远程仓库名称：git remote	
+显示详细信息：git remote -v
+
+推送分支：git push origin dev
+
+新建初始化的本地仓库默认只有master主分支，如果需在远程分支上clone之后开发，
+需要在本地创建分支：git checkout -b dev origin/dev
+
+抓取最新的提交： git pull(需要制定本地分支与远程分支的链接)
+
+建立本地链接和远程链接：git branch --set-upstream (branch-name) origin/(branch-name)
+
+标签作用：给发布（推送版本）打上版本标签，可直接根据版本恢复
+	切换到需要打标签的分支：git tag v1.0
+	
+	查看所有标签：git tag (默认标签的打在最新的commit上)
+	
+	根据版本打标签(找到对应提交的版本id): git tag v0.9 75a857c
+	
+	查看标签信息:git show v1.0
+	
+	创建带有文字说明的标签：git tag -a v1.2 -m 'description' 75a857c
+	
+	删除标签：git tag -d v1.0
+	
+	推送单个标签：git push origin <tagname>(v1.0)
+	
+	一次性推送所有标签：git push origin --tags
+	
+	远程删除标签(先从本地删除)：git push origin :refs/tags/v1.0
+	
+	
+

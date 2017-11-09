@@ -1,0 +1,35 @@
+1、下载对应版本的git Windows下载git for Windows
+
+2、创建本地ssh key  
+打开git 输入命令：ssh-keygen -t rsa -C （git注册的邮）
+	（1）按回车后，第一次要求输入路径，一般默认就好，
+	（2）回车之后要输入密码，第二次是确认密码
+	（3）确认密码后，生成了本地ssh key 
+	（4）id_rsa.pub 里面的所有内容为ssh key
+
+3、到GitHub上，添加自己的ssh key   title 自己填，key 将本地生成的内容拷贝进去即可
+
+4、打开git测试是否成功，输入命令：ssh -T git@github.com
+
+5、如果创建本地ssh key 时候，设置了密码，则输入密码，否则默认为空，回车之后，
+	看到：Hi Turn-Phantom! You've successfully authenticated, but GitHub does not provide shell access.
+	则，连接github成功
+
+6、创建本地用户，当使用这个用户提交时会记录提交者的信息
+	创建用户命令：	git config --global user.name "your name"
+	创建用户邮箱命令：git config --global user.email "your_email@youremail.com"
+
+
+7、创建本地仓库，初始化命令：git init
+	如果需要创建文件夹在后面添加文件夹名称，如:git init filename
+
+8、添加文件进缓存：git add filename 
+
+9、提交，并备注：git commit -m '备注内容' 
+
+10、推送内容到github上面，首先要在github上建立一个仓库，且本地仓库要和远程仓库名称相同。
+
+	git remote add origin git@github.com:Turn-Phantom/lisheng.git	
+	git push -u origin master
+如果已经有这个仓库，且这个仓库中有文件，可使用强推方式将之前的内容覆盖：git push -t -u origin master
+

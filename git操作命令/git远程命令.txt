@@ -1,0 +1,14 @@
+1、查看远程分支命令
+	红色代表远程仓库:git branch -a
+	
+2、删除远程分支（git  1.7.0之后）
+	git push origin --delete [branch name]
+	
+3、推送空分支到远程仓库（作用相当于删除远程仓库）
+	git push origin :[branch name]
+	
+1、删除远程分支文件，保留本地文件：
+	git rm -r --cached dirname
+	git commit -m "discription"
+	git push origin branchName
+	

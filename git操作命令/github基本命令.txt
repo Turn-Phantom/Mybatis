@@ -1,0 +1,38 @@
+git教程：https://www.liaoxuefeng.com/wiki/0013739516305929606dd18361248578c67b8067c8c017b000
+
+初始化本地仓库：  git init [目录名称] （默认当前目录）
+
+添加文件到本地仓库暂存区：git add FileName (多个文件可用空格分割，也可多次添加)
+
+提交文件到本地仓库：git commit -m "提交说明"
+
+查看仓库当前状态：git status
+
+查看文件修改的内容：git diff (文件名)
+
+查看历史版本：git log (版本从最近到最远)
+	列表形式：git log --pretty=oneline
+	
+回退到上一个版本：git reset --hard HEAD^
+回退到上上一个版本:git rest --hard HEAD^^
+
+恢复最新版本：
+	（1）先查看记录提交命令的id
+	（2）使用命令根据提交的id恢复版本：git reset --hard commit_id
+
+撤销工作区内容的修改，（没提交之前）：git checkout -- FileName
+
+创建文件夹：mkdir Files
+
+删除文件夹：rm -rf Files
+
+创建文件：touch FileName
+
+删除文件：rm FileName
+
+复制文件到其他目录：cp file dir/file
+
+复制文件夹到其他目录 ：cp -r /dir /dir
+
+复制文件到本地 并命名：cp file newfilename
+

@@ -1,0 +1,6 @@
+1、查看commit日志：git log
+
+2、撤销commit（根据commit_id）：git reset --hard commit_id
+
+
+3、将该文件从缓存中删除：git rm --cached "文件路径"

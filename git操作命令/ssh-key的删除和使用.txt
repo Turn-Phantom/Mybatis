@@ -1,0 +1,4 @@
+1、查看本地电脑是否有ssh key:
+	cat ~/.ssh/id_rsa.pub
+	
+	
