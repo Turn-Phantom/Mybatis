@@ -1,0 +1,29 @@
+1、查看JDK是否安装：
+	rpm -qa|grep java
+	如果安装卸载：
+		命令：rpm -e --nodeps 要卸载的软件
+	
+2、通过文件共享，上传压缩包
+
+3、解压文件  tar -xvf 压缩包名
+	
+	安装jdk运行需要的插件yum install glibc.i686
+	
+4、配置JDK环境：打开/etc/profile配置文件
+	#set java environment
+	JAVA_HOME=/usr/local/jdk1.7.0_71（路径名）
+	CLASSPATH=.:$JAVA_HOME/lib.tools.jar
+	PATH=$JAVA_HOME/bin:$PATH
+	export JAVA_HOME CLASSPATH PATH 
+	
+5、重新加载配置文件：
+	etc/profile
+	
+	命令：
+		source /etc/profile
+		
+6、测试是否安装成功：
+	java -version
+	
+	
+

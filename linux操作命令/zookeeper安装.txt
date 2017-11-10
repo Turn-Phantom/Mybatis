@@ -1,0 +1,21 @@
+1、上传文件到linux，解压
+
+2、进入 conf 文件夹，找到zoo_sample.cfg 复制并命名为：zoo.cfg 
+
+3、修改zoo.cfg 的内容：(一下文件目录需存在，不存在可手动建立)
+	dataDir =/tmp/zookeeper(数据存放目录)
+	dataLogDir=/tmp/zookeeper/log(日志存放目录)
+	
+4、配置环境变量，到根目录下面的 bin 目录下：
+	执行：export ZOOKEEPER_INSTALL=/software/zookeeper-3.4.9/(zookeeper安装目录)
+	export PATH=$PATH:$ZOOKEEPER_INSTALL/bin
+
+5、启动zookeeper,进入zookeeper安装目录下找到bin目录：
+		启动命令：./zkServer.sh start 
+		
+		停止命令：./zkServer.sh stop
+		
+		查看zookeeper运行状态: ./zkServer.sh status
+		
+		查看启动日志信息：./zkCli.sh
+	
