@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE configuration
+PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-config.dtd">
+<configuration>
+	<typeAliases>
+		<typeAlias type="com.li.mybatis4.pojo.QueryVo" alias="queryVo" />
+		<typeAlias type="com.li.mybatis4.pojo.User" alias="user" />
+		<typeAlias type="com.li.mybatis4.pojo.Order" alias="order" />
+		<typeAlias type="com.li.mybatis4.pojo.QueryVo2" alias="queryVo2"/>
+	</typeAliases>
+	<!-- 和Spring整合后，environment将废除 -->
+	<environments default="mysql">
+	<!-- environmets下允许有多个environment标签，每一个代表连接数据库的环境 -->
+		<environment id="mysql">
+			<!-- 使用jdbc连接事务 -->
+			<transactionManager type="JDBC" />
+			<!-- 数据库连接池 -->
+			<dataSource type="POOLED">
+				<!-- 数据库连接信息 -->
+				<property name="driver" value="com.mysql.jdbc.Driver"/>
+				<property name="url" 
+				value="jdbc:mysql://192.168.1.152:3306/li?characterEncoding=UTF-8"/>
+				<property name="username" value="root"/>
+				<property name="password" value="root"/>
+			</dataSource>
+		</environment>
+	</environments>
+
+	<mappers>
+		<mapper resource="mapper/UserMapper.xml"/>
+		<mapper resource="mapper/OrderMapper.xml" />
+	</mappers>
+</configuration>
