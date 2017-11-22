@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!--
+	namespace 命名空间，用于隔离sql
+	还一个很重要的作用，使用动态代理开发dao，namespace必须和Mapper接口类路径一致
+ -->
+<mapper namespace="com.li.mybatis5.mapper.OrderUserMapper">
+    <!--  一对一关联查询1
+		 方法一：使用resultType
+		 通过改造pojo类，是这个实体类既有订单信息也有用户信息
+		 定义专门的pojo类作为输出类型，其中定义了sql查询结果集所有的字段
+	-->
+    <!--查询订单，同时包含用户数据-->
+    <select id="queryOrderUser1" resultType="orderUser">
+        select o.id,o.user_id userId,o.number ,o.createtime,u.username,u.address
+        from user u,orders o
+        where o.user_id = u.id
+    </select>
+    <!--  一对一关联查询2
+    方法二：使用ResultMap
+    使用ResultMap，定义专门的ResultMap，用于映射一队一查询结果
+-->
+    <!--ResultMap类型-->
+    <resultMap id="orderUserResultMap" type="order">
+    <id property="id" column="id"/>
+    <result property="userId" column="user_id"/>
+    <result property="orderNum" column="number"/>
+    <result property="createtime" column="createtime"/>
+    <result property="note" column="note"/>
+    <!--
+        association ： 配置一对一属性
+        property : order里面的User属性名
+        javaType : 属性类型
+    -->
+    <association property="user" javaType="user">
+        <!--id声明主键，表示user_id是关联查询对象的唯一标识-->
+        <id property="id" column="user_id"/>
+        <result property="username" column="username"/>
+        <result property="address" column="address"/>
+    </association>
+</resultMap>
+    <!-- 一对一关联，查询订单，订单内部包含用户属性-->
+    <select id="queryOrderUser2" resultMap="orderUserResultMap">
+        select o.id,o.user_id,o.number,o.createtime,o.note,u.username,u.address
+        from orders as o,user as u where o.user_id = u.id
+    </select>
+
+    <!-- 一对多关联查询 -->
+    <!--查询所有用户信息及用户关联的订单信息，用户信息和订单为一对多-->
+    <resultMap id="userOrderMany" type="userOrder">
+        <id property="id" column="id"/>
+        <result property="username" column="username"/>
+        <result property="birthday" column="birthday"/>
+        <result property="sex" column="sex"/>
+        <result property="address" column="address"/>
+        <!-- 配置一对多的关系 -->
+        <collection property="orders" javaType="list" ofType="orders">
+            <!-- 配置主键，关联Order的唯一标识 -->
+            <id property="id" column="oid"/>
+            <result property="number" column="number"/>
+            <result property="createtime" column="creatime"/>
+            <result property="note" column="note"/>
+        </collection>
+    </resultMap>
+    <select id="queryUserOrderMany" resultMap="userOrderMany">
+      <!--  select u.id,u.username,u.birthday,u.sex,u.address,o.id oid,o.number,o.createtime,o.note
+        from user as u ,orders as o
+        -->
+        select u.id,u.username,u.birthday,u.sex,u.address,o.id oid,o.number,o.createtime,o.note
+        from user as u left join orders as o on u.id = o.user_id
+    </select>
+</mapper>
